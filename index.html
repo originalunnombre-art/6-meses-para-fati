@@ -1,1 +1,500 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6 meses contigo 🖤</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at top, #32121b 0%, #100b0e 45%, #070708 100%);
+  color: #eee3e5;
+  font-family: 'Cormorant Garamond', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .15;
+  background-image: radial-gradient(#ffffff 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+header {
+  text-align: center;
+  padding: 65px 20px 25px;
+}
+
+.mini {
+  color: #c27a87;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(50px, 10vw, 85px);
+  color: #f1d9de;
+  font-weight: 400;
+  margin: 15px 0 5px;
+  text-shadow: 0 0 30px #a8324d55;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #c7adb2;
+  font-style: italic;
+}
+
+.intro {
+  max-width: 550px;
+  margin: 25px auto 0;
+  line-height: 1.6;
+  font-size: 19px;
+  color: #d4c4c7;
+}
+
+.line {
+  width: 100px;
+  height: 1px;
+  background: #8c3448;
+  margin: 30px auto;
+}
+
+.grid {
+  width: min(900px, 92%);
+  margin: 35px auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.gift {
+  min-height: 205px;
+  padding: 25px 15px;
+  border: 1px solid #542533;
+  background: linear-gradient(145deg, #1b1015, #0d0b0d);
+  border-radius: 13px;
+  text-align: center;
+  cursor: pointer;
+  transition: .3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.gift:hover:not(.locked) {
+  transform: translateY(-5px);
+  border-color: #a34a62;
+  box-shadow: 0 10px 35px #7d213522;
+}
+
+.gift.locked {
+  opacity: .42;
+  cursor: not-allowed;
+}
+
+.gift.opened {
+  border-color: #824253;
+  background: linear-gradient(145deg, #28131c, #100b0e);
+}
+
+.number {
+  color: #a65c70;
+  letter-spacing: 3px;
+  font-size: 12px;
+}
+
+.emoji {
+  font-size: 35px;
+  margin: 15px 0;
+}
+
+.gift h3 {
+  font-size: 23px;
+  font-weight: 500;
+  margin: 5px 0;
+  color: #ead4d9;
+}
+
+.gift p {
+  color: #ad929a;
+  font-size: 16px;
+  margin: 7px 0;
+}
+
+.lock {
+  font-size: 12px;
+  color: #936673;
+  margin-top: 12px;
+}
+
+.progress {
+  color: #b28b96;
+  text-align: center;
+  font-size: 17px;
+  margin: 15px;
+}
+
+.final {
+  text-align: center;
+  padding: 10px 20px 70px;
+}
+
+.final button {
+  display: none;
+  padding: 14px 25px;
+  border: 1px solid #9d5368;
+  border-radius: 30px;
+  background: #421a28;
+  color: #f1dce1;
+  font-family: inherit;
+  font-size: 20px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.final button:hover {
+  background: #67263d;
+  transform: scale(1.04);
+}
+
+footer {
+  text-align: center;
+  padding: 0 20px 35px;
+  color: #76515d;
+  font-size: 16px;
+}
+
+/* Ventana del regalo */
+
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #050405ed;
+  z-index: 10;
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.overlay.active {
+  display: flex;
+}
+
+.modal {
+  width: min(650px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 35px 28px;
+  background: linear-gradient(145deg, #211219, #0d0a0d);
+  border: 1px solid #693143;
+  border-radius: 15px;
+  box-shadow: 0 0 60px #7b263544;
+  text-align: center;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 17px;
+  background: none;
+  border: none;
+  color: #c99eaa;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.modal .tag {
+  color: #bd7589;
+  font-size: 12px;
+  letter-spacing: 4px;
+}
+
+.modal h2 {
+  font-family: 'Great Vibes', cursive;
+  font-weight: 400;
+  font-size: 43px;
+  color: #efd5dd;
+  margin: 15px 0;
+}
+
+.modal .content {
+  font-size: 21px;
+  line-height: 1.85;
+  color: #dfcdd2;
+  white-space: pre-line;
+  text-align: left;
+}
+
+.modal .heart {
+  color: #ad425d;
+  font-size: 25px;
+  margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding-top: 45px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .gift {
+    min-height: 180px;
+    padding: 18px 10px;
+  }
+
+  .gift h3 {
+    font-size: 20px;
+  }
+
+  .intro {
+    font-size: 18px;
+  }
+
+  .modal {
+    padding: 35px 20px;
+  }
+
+  .modal .content {
+    font-size: 19px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="mini">para mi personita favorita</div>
+  <h1>6 meses contigo</h1>
+  <div class="subtitle">seis regalos, seis pedacitos de mi corazón</div>
+
+  <div class="line"></div>
+
+  <p class="intro">
+    mi amorcito, preparé algo pequeñito para ti.<br>
+    son seis regalitos que esconden algunas de las
+    tantas razones por las que me encanta compartir
+    mi vida contigo. abre cada uno con calma...<br>
+    <span style="color:#bd7589">todos tienen un pedacito de mí. 🖤</span>
+  </p>
+</header>
+
+<div class="grid" id="giftGrid"></div>
+
+<div class="progress" id="progress">
+  0 de 6 regalitos abiertos
+</div>
+
+<section class="final">
+  <button id="finalButton" onclick="openLetter()">
+    ✉ Abrir mi última cartita
+  </button>
+</section>
+
+<footer>
+  hecho con mucho amor, para ti. ♡<br>
+  24.05.2026 — para nosotros
+</footer>
+
+<div class="overlay" id="overlay" onclick="outsideClose(event)">
+  <div class="modal">
+    <button class="close" onclick="closeModal()">×</button>
+    <div class="tag" id="modalTag"></div>
+    <h2 id="modalTitle"></h2>
+    <div class="content" id="modalContent"></div>
+    <div class="heart">♥</div>
+  </div>
+</div>
+
+<script>
+const gifts = [
+{
+ title: "Lo que amo de ti",
+ subtitle: "tu manera de ser",
+ emoji: "🌹",
+ text: `mi amor, una de las cosas que más amo de ti es tu manera de ser, esa esencia tan tuya que te hace ser alguien tan especial para mí. me encanta conocer cada pequeña parte de ti, tus ocurrencias, tu forma de expresarte, tus gustos, tus enojitos, tus momentos de felicidad y hasta aquellas partes de ti que a veces te cuesta mostrar.
+
+me gusta que seas tú, que no tengas que ser alguien más para hacerme feliz, porque simplemente siendo tú has logrado convertirte en una de las personitas más importantes de mi vida. y si pudiera volver a conocerte, volvería a querer descubrir cada pedacito de ti una y mil veces más.`
+},
+{
+ title: "Pequeñas cosas",
+ subtitle: "tu forma de hacerme feliz",
+ emoji: "🌙",
+ text: `me encanta cómo logras hacer bonitos mis días sin siquiera darte cuenta, cómo una simple conversación contigo puede cambiar por completo mi humor y cómo hasta los momentos más insignificantes se vuelven especiales cuando los comparto contigo.
+
+amo recibir tus mensajitos, tus ocurrencias, cuando me cuentas tus cosas, cuando te emocionas por algo y cuando simplemente estás ahí conmigo. tal vez para ti sean cosas pequeñitas, pero para mí significan demasiado.
+
+no sabes cuántas veces has logrado hacerme sonreír frente a una pantalla, y lo bonito que es tener a alguien que, incluso estando tan lejos, consigue hacerme sentir tantas cosas tan cerca.`
+},
+{
+ title: "Mis momentos favoritos",
+ subtitle: "tu voz y nuestros momentos",
+ emoji: "🎧",
+ text: `amo nuestras llamadas, escuchar tu voz, pasar tiempo contigo, jugar, ver cositas juntos, escuchar musiquita y hablar de cualquier cosa, incluso cuando no tenemos un tema en concreto.
+
+me encanta que contigo no siempre tenga que existir algo extraordinario para pasarla bonito, porque hasta quedarnos haciendo cualquier tontería se convierte en uno de mis momentos favoritos.
+
+amo escucharte y podría quedarme durante muchísimo tiempo haciéndolo. creo que si alguien me preguntara qué lugar me hace sentir tranquilo, probablemente pensaría en todos esos momentos en los que estoy contigo, aunque sea a través de una pantalla.`
+},
+{
+ title: "Eres increíble",
+ subtitle: "lo que admiro de ti",
+ emoji: "✨",
+ text: `quiero que sepas que admiro muchísimo a la personita que eres, admiro tus esfuerzos, todas las veces que sigues adelante a pesar de estar cansada, las cosas que intentas hacer, tus sueños y hasta esos pequeños pasos que quizás tú no consideres tan importantes.
+
+sé que hay días en los que las cosas no son tan bonitas y que a veces puedes sentirte cansada de todo, pero incluso en esos días quiero que recuerdes lo valiosa que eres.
+
+no tienes que ser perfecta, ni tener todo resuelto, ni estar bien todo el tiempo. para mí sigues siendo alguien increíble incluso en tus días más difíciles, y siempre voy a querer recordarte lo mucho que vales.`
+},
+{
+ title: "A pesar de los kilómetros",
+ subtitle: "aunque estés lejos",
+ emoji: "🖤",
+ text: `a veces me gustaría que la distancia no existiera, poder abrazarte cuando tienes un día pesado, tomar tu manito, darte besitos, estar a tu lado sin tener que depender de una llamada o de una pantalla.
+
+hay tantas cosas que quisiera compartir contigo de manera presencial, tantas veces en las que simplemente quisiera aparecer junto a ti y hacerte compañía. pero aun con todos esos kilómetros que nos separan, no cambiaría lo que tenemos por algo que no fuera contigo.
+
+porque a pesar de la distancia, sigues formando parte de mis días, de mis pensamientos, de mis planes y de mi felicidad. no eres solamente alguien a quien extraño, eres alguien con quien quiero seguir construyendo algo bonito.`
+},
+{
+ title: "Esto apenas comienza",
+ subtitle: "todo lo que nos falta vivir",
+ emoji: "🌌",
+ text: `y si hay algo que me emociona demasiado es pensar en todas las cosas que todavía nos faltan por vivir juntitos. imagino nuestro primer abrazo, ese momento en el que por fin pueda verte frente a mí y darme cuenta de que ya no tengo que imaginar cómo sería tenerte cerquita.
+
+quiero conocer más de ti, salir contigo, caminar juntitos, tomarnos fotitos, compartir comidas, hacer tonterías, tener citas, abrazarte hasta que me duelan los brazos y crear tantos recuerdos que algún día podamos mirar hacia atrás y decir que todo valió la pena.
+
+hoy cumplimos seis meses, pero yo no quiero que esto se quede solamente en seis meses. quiero seguir celebrando muchos más contigo, mi amorcito, porque si algo tengo claro es que todavía nos queda muchísimo amor por vivir.`
+}
+];
+
+let opened = 0;
+
+function renderGifts() {
+ const grid = document.getElementById("giftGrid");
+
+ gifts.forEach((gift, i) => {
+  const card = document.createElement("div");
+  card.className = "gift" + (i > 0 ? " locked" : "");
+
+  card.innerHTML = `
+   <div class="number">REGALO 0${i + 1}</div>
+   <div class="emoji">${i > 0 ? "🔒" : gift.emoji}</div>
+   <h3>${gift.title}</h3>
+   <p>${gift.subtitle}</p>
+   <div class="lock">${i > 0 ? "espera a abrir el anterior" : "pulsa para abrir"}</div>
+  `;
+
+  card.onclick = () => openGift(i);
+  grid.appendChild(card);
+ });
+}
+
+function openGift(i) {
+ if (i > opened) return;
+
+ const gift = gifts[i];
+
+ document.getElementById("modalTag").textContent =
+   `REGALO 0${i + 1} · SEIS MESES`;
+
+ document.getElementById("modalTitle").textContent = gift.title;
+ document.getElementById("modalContent").textContent = gift.text;
+ document.getElementById("overlay").classList.add("active");
+
+ if (i === opened) {
+  opened++;
+  updateProgress();
+ }
+}
+
+function updateProgress() {
+ const cards = document.querySelectorAll(".gift");
+
+ cards.forEach((card, i) => {
+  card.classList.remove("locked");
+  card.classList.toggle("opened", i < opened);
+
+  const emoji = card.querySelector(".emoji");
+  const lock = card.querySelector(".lock");
+
+  if (i < opened) {
+   emoji.textContent = "💌";
+   lock.textContent = "regalito abierto ♡";
+  } else if (i === opened) {
+   emoji.textContent = gifts[i].emoji;
+   lock.textContent = "pulsa para abrir";
+  } else {
+   emoji.textContent = "🔒";
+   lock.textContent = "espera a abrir el anterior";
+   card.classList.add("locked");
+  }
+ });
+
+ document.getElementById("progress").textContent =
+  `${opened} de 6 regalitos abiertos`;
+
+ if (opened === 6) {
+  document.getElementById("finalButton").style.display = "inline-block";
+ }
+}
+
+function closeModal() {
+ document.getElementById("overlay").classList.remove("active");
+}
+
+function outsideClose(e) {
+ if (e.target.id === "overlay") closeModal();
+}
+
+function openLetter() {
+ document.getElementById("modalTag").textContent =
+  "UNA ÚLTIMA COSITA · PARA TI";
+
+ document.getElementById("modalTitle").textContent =
+  "felices seis meses, mi amorcito";
+
+ document.getElementById("modalContent").textContent =
+ `mi amorcito, si llegaste hasta aquí es porque abriste los seis regalitos que preparé para ti, y quería que el último fuera algo un poquito más especial. hoy cumplimos seis meses juntitos y aunque no puedo entregarte todo esto en tus manitos ni darte un abrazo mientras lo lees, quería encontrar una forma de hacerte sentir todo el amor que tengo por ti.
+
+ no sabes lo bonito que ha sido compartir estos seis meses contigo, tenerte en mi vida, aprender de ti, conocerte cada día un poquito más y encontrar en ti una personita con la que quiero compartir tantas cosas. a veces me pongo a pensar en todo lo que hemos vivido, en nuestras llamadas, nuestras risas, nuestros momentos bonitos, nuestras conversaciones y hasta las pequeñas cositas que probablemente parecen insignificantes pero que para mí significan muchísimo. y me doy cuenta de que no necesito grandes momentos para sentirme feliz contigo, porque muchas veces basta con tenerte ahí, saber de ti, escucharte o simplemente pasar un ratito juntos para hacer que mi día sea mucho más bonito.
+
+ sé que no siempre todo es fácil, que la distancia puede ser complicada y que hay días en los que nos gustaría tenernos cerquita, pero quiero que sepas que sigo teniendo muchísimas ganas de ti, de nosotros y de todo lo que estamos construyendo. quiero seguir conociéndote, seguir aprendiendo a amarte de la manera en la que mereces, seguir acompañándote, cuidándote, haciéndote reír y siendo ese lugarcito en el que puedas sentirte querida, tranquila y segura.
+
+ gracias por estos seis meses, mi vida, gracias por ser tú, por permitirme formar parte de tus días y por compartir conmigo tantas cositas. gracias por cada sonrisa que me has sacado, por cada momento en el que me has hecho sentir amado y por todo aquello que quizás no te das cuenta de que haces pero que yo guardo con muchísimo cariño.
+
+ felices seis meses, mi amorcito. si pudiera pedir algo para nosotros, pediría que nunca nos falten las ganas de seguir eligiéndonos, de cuidarnos, de comprendernos y de seguir creando recuerdos. quiero que algún día podamos mirar todo esto desde cerquita, abrazados, recordando cada kilómetro que tuvimos que atravesar para llegar hasta ahí.
+
+ te amo muchísimo, y esta cajita tiene seis regalitos, pero ninguno de ellos se acerca siquiera a lo grande y bonito que es todo lo que siento por ti. feliz aniversario, mi niña hermosa. esto es solamente un pedacito de todo lo que todavía quiero darte. 🖤`;
+
+ document.getElementById("overlay").classList.add("active");
+}
+
+renderGifts();
+</script>
+
+</body>
+</html>
+
